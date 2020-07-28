@@ -10,7 +10,7 @@ The following **Contents** should hold true for these package/software specifica
 - Rstudio Version 1.3.959
 - macOS Catalina 10.15.6
 
-NOTE: ‘optotrak_data.csv’ and ‘post_1000_15_mtd17.rdata’ are stored using Git Large File Storage (LFS). To download these files, you will need to download the git lfs software and clone the repository using git. Follow these steps to install git lfs on your computer: https://docs.github.com/en/github/managing-large-files/installing-git-large-file-storage. 
+NOTE: ‘optotrak_data.csv’ is stored using Git Large File Storage (LFS). To download this file, you will need to download the git lfs software and clone the repository using git. Follow these steps to install git lfs on your computer: https://docs.github.com/en/github/managing-large-files/installing-git-large-file-storage. 
 
 ## Contents
 ‘trajectory_analysis.R’: The primary analysis script. 
@@ -32,13 +32,12 @@ NOTE: ‘optotrak_data.csv’ and ‘post_1000_15_mtd17.rdata’ are stored usin
 
 ‘fanovan_norm_time’: The results of the FANOVAN analysis, to be handled by ‘trajectory_analysis.R’. 
 
-‘data_for_stan15.RData’: The data list to be fed to the BHGPR model via the ‘cluster_analysis.R’ script. 
+‘data_for_stan15.RData’: The data list to be fed to the BHGPR model via the ‘cluster_analysis.R’ script. The data in this repository differs from the data that was actually fed to the cluster in 2017 only in that the participant ids are now randomized.
 
-‘cluster_analysis.R’ : The script fed to Dalhousie’s computer cluster to compute the Bayesian posterior distributions. Note: this script was used to generate ‘post_1000_15_mtd17.rdata’ in 2017. The versions of R and rstan run by the cluster computers are unknown. The script current generates a “Cluster setup failed” error message with the aforementioned specifications. I am unsure of the solution at the moment.
+‘cluster_analysis.R’ : The script fed to Dalhousie’s computer cluster to compute the Bayesian posterior distributions. Note: this script was used to generate the posterior samples found in ‘post_samples_for_pop_estimates.rdata’ in 2017. The versions of R and rstan run by the cluster computers are unknown. The script current generates a “Cluster setup failed” error message with the aforementioned specifications. I am unsure of the solution at the moment.
 
 ‘gp_regression.stan’: The BHGPR model. The ‘cluster_analysis.R’ script loads this model. 
 
-‘post_1000_15_mtd17.rdata’: The results of the BHGPR analysis run on the cluster. This data file contains all the information regarding the posterior distributions of the Bayesian model. 
+‘post_samples_for_pop_estimates.rdata’: The partial results of the BHGPR analysis run on the cluster in 2017. This data file contains information regarding the posterior distributions of the population estimates from the Bayesian model. All the posterior distributions displayed in the manuscript are contained in this rdata object. 
 
 ‘Experiment Code’ : The MATLAB files in this folder were used to run the experiment on the touch screen described in the methods section of the manuscript as well as to control the PLATO goggles. 
-
