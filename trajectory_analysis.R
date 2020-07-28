@@ -1668,29 +1668,29 @@ df_long_spat_var %>%
   dplyr::summarise(spat_var_avg = mean(spat_var)) -> df_long_spat_var_avg  
 
 
-# Compare mean and median ----
-# NOTE: outlying trials/participants are affecting results 
-# difference between mean and median averages 
-
-df_long_spat_var %>%
-  dplyr::group_by(condition, coordinate, norm_time) %>%
-  dplyr::summarise(spat_var_med = median(spat_var)) -> df_long_spat_var_med 
-
-df_long_spat_var %>%
-  dplyr::group_by(condition, coordinate, norm_time) %>%
-  dplyr::summarise(spat_var_mean = mean(spat_var)) -> df_long_spat_var_mean
-
-df_long_spat_var_compare = merge(df_long_spat_var_mean, df_long_spat_var_med)
-df_long_spat_var_compare %>%
- gather(average_metric, SD, spat_var_mean:spat_var_med, factor_key = T) ->df_long_spat_var_compare_long
-
-df_long_spat_var_compare_long %>%
-  dplyr::filter(coordinate == "y_inter") %>%
-  ggplot()+
-  geom_line(aes(x=norm_time, y=SD, group=condition, color=condition))+
-  facet_grid(.~average_metric) +
-  xlab("normalized time")+
-  ylab( "y spatial variability (sd)")
+# # Compare mean and median ----
+# # NOTE: outlying trials/participants are affecting results 
+# # difference between mean and median averages 
+# 
+# df_long_spat_var %>%
+#   dplyr::group_by(condition, coordinate, norm_time) %>%
+#   dplyr::summarise(spat_var_med = median(spat_var)) -> df_long_spat_var_med 
+# 
+# df_long_spat_var %>%
+#   dplyr::group_by(condition, coordinate, norm_time) %>%
+#   dplyr::summarise(spat_var_mean = mean(spat_var)) -> df_long_spat_var_mean
+# 
+# df_long_spat_var_compare = merge(df_long_spat_var_mean, df_long_spat_var_med)
+# df_long_spat_var_compare %>%
+#  gather(average_metric, SD, spat_var_mean:spat_var_med, factor_key = T) ->df_long_spat_var_compare_long
+# 
+# df_long_spat_var_compare_long %>%
+#   dplyr::filter(coordinate == "y_inter") %>%
+#   ggplot()+
+#   geom_line(aes(x=norm_time, y=SD, group=condition, color=condition))+
+#   facet_grid(.~average_metric) +
+#   xlab("normalized time")+
+#   ylab( "y spatial variability (sd)")
 
 
 
