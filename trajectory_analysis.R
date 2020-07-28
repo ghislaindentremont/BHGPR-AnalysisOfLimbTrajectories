@@ -1454,6 +1454,15 @@ plot_norm_avg(1:10, "z_inter", "position_avg", "z position (mm)")
 plot_norm_avg(11:20, "z_inter", "position_avg", "z position (mm)")
 plot_norm_avg(21:33, "z_inter", "position_avg", "z position (mm)")
 
+# # plot participant average trajectories for Y for outlier detection
+# df_long_norm_avg %>%
+#   dplyr::filter(coordinate == "y_inter") %>%
+#   ggplot()+
+#   geom_line(aes(x=norm_time, y=position_avg, group=id, color=id), size = .3)+
+#   xlab("normalized time")+
+#   ylab("y position (mm)")+
+#   facet_grid(.~condition)
+
 
 # Normalize Grand Averages ----
 df_long_norm_avg %>%
@@ -1644,14 +1653,45 @@ plot_spat_var(1:10, "z_inter", "z spatial variability (sd)")
 plot_spat_var(11:20, "z_inter", "z spatial variability (sd)")
 plot_spat_var(21:33, "z_inter", "z spatial variability (sd)")
 
+# plot participant spatial variability for Y to detect outliers 
+df_long_spat_var %>%
+  dplyr::filter(coordinate == "y_inter") %>%
+  ggplot()+
+  geom_line(aes(x=norm_time, y=spat_var, group=id, color=id), alpha = 0.5, size = .5)+
+  xlab("normalized time")+
+  ylab("y spatial variability (sd)")+
+  facet_grid(.~condition)
 
 # Average of Spatial Variabilty Profiles ----
 df_long_spat_var %>%
   dplyr::group_by(blocking, condition, coordinate, norm_time) %>%
   dplyr::summarise(spat_var_avg = mean(spat_var)) -> df_long_spat_var_avg  
 
-# NOTE: outlying trials/participants are affecting results
-# difference between mean and median averages
+
+# Compare mean and median ----
+# NOTE: outlying trials/participants are affecting results 
+# difference between mean and median averages 
+
+df_long_spat_var %>%
+  dplyr::group_by(condition, coordinate, norm_time) %>%
+  dplyr::summarise(spat_var_med = median(spat_var)) -> df_long_spat_var_med 
+
+df_long_spat_var %>%
+  dplyr::group_by(condition, coordinate, norm_time) %>%
+  dplyr::summarise(spat_var_mean = mean(spat_var)) -> df_long_spat_var_mean
+
+df_long_spat_var_compare = merge(df_long_spat_var_mean, df_long_spat_var_med)
+df_long_spat_var_compare %>%
+ gather(average_metric, SD, spat_var_mean:spat_var_med, factor_key = T) ->df_long_spat_var_compare_long
+
+df_long_spat_var_compare_long %>%
+  dplyr::filter(coordinate == "y_inter") %>%
+  ggplot()+
+  geom_line(aes(x=norm_time, y=SD, group=condition, color=condition))+
+  facet_grid(.~average_metric) +
+  xlab("normalized time")+
+  ylab( "y spatial variability (sd)")
+
 
 
 # a function to plot group spatial variability profiles
