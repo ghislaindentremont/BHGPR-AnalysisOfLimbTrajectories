@@ -4058,10 +4058,10 @@ to_plot %>%
   geom_ribbon(aes(x=time, ymin=lo95_1, ymax=hi95_1), fill = "turquoise", alpha=0.5)+
   geom_line(aes(x=time, y=med_2), color = "red")+
   geom_ribbon(aes(x=time, ymin=lo95_2, ymax=hi95_2), fill = "red", alpha=0.5)+
-  annotate("text", label = "Vision", x = 3/15, y = -0.15, color = "turquoise")+
-  annotate("text", label = "No Vision", x = 8/15, y = -1, color = "red")+
-  geom_line(data=subset(df_condition_meansy, condition == "vision"), aes(x=time_lores, y=position_bin_scale_grand_avg), size = 0.5, color = "grey50")+
-  geom_line(data=subset(df_condition_meansy, condition == "no_vision"), aes(x=time_lores, y=position_bin_scale_grand_avg), size = 0.5, color = "grey50")+
+  annotate("text", label = "Vision", x = 3/15, y = -0.15, color = "turquoise", size = 6)+
+  annotate("text", label = "No Vision", x = 8/15, y = -1, color = "red", size = 6)+
+  geom_line(data=subset(df_condition_meansy, condition == "vision"), aes(x=time_lores, y=position_bin_scale_grand_avg), size = 0.75, color = "black", linetype = "dotted")+
+  geom_line(data=subset(df_condition_meansy, condition == "no_vision"), aes(x=time_lores, y=position_bin_scale_grand_avg), size = 0.75, color = "black", linetype = "dotted")+
   geom_point(data = subset(kms_to_plot, condition == "vision"), aes(x=time_peak_velocity, y=min(to_plot$med_1)), size = 1, color = "turquoise")+
   geom_point(data = subset(kms_to_plot, condition == "vision"), aes(x=time_peak_acceleration, y=min(to_plot$med_1)), size = 1, color = "turquoise")+
   geom_point(data = subset(kms_to_plot, condition == "vision"), aes(x=time_peak_deceleration, y=min(to_plot$med_1)), size = 1, color = "turquoise")+
@@ -4135,7 +4135,7 @@ to_plot_effect %>%
   geom_ribbon(aes(x=time, ymin=lo95_1, ymax=hi95_1), fill = "purple", alpha=0.5)+
   ylab('Scaled Position (V - NV)')+
   xlab('Proportion of Movement')+ 
-  geom_line(data=subset(df_condition_effecty), aes(x=time_lores, y=effect), size = 0.5, color = "grey50")+
+  geom_line(data=subset(df_condition_effecty), aes(x=time_lores, y=effect), size = 0.75, color = "black", linetype = "dotted")+
   geom_point(data = kms_to_plot_effect, aes(x=time_peak_velocity, y=max(to_plot_effect$hi95_1)), size = 1)+
   geom_point(data = kms_to_plot_effect, aes(x=time_peak_acceleration, y=max(to_plot_effect$hi95_1)), size = 1)+
   geom_point(data = kms_to_plot_effect, aes(x=time_peak_deceleration, y=max(to_plot_effect$hi95_1)), size = 1)+
@@ -4242,18 +4242,18 @@ noise_to_plot %>%
   geom_ribbon(aes(x=time, ymin=lo95_1, ymax=hi95_1),fill = "turquoise", alpha=0.5)+
   geom_line(aes(x=time, y=med_2), color = "red")+
   geom_ribbon(aes(x=time, ymin=lo95_2, ymax=hi95_2), fill = "red", alpha=0.5)+
-  geom_line(data=subset(subj_noise, condition == "vision"), aes(x=time_lores, y=avg_SD), size = 0.5, color = "gray50")+
-  geom_line(data=subset(subj_noise, condition == "no_vision"), aes(x=time_lores, y=avg_SD), size = 0.5, color = "gray50")+
-  # geom_point(data = subset(kms_to_plot, condition == "vision"), aes(x=time_peak_velocity, y=min(noise_to_plot$med_1)), size = 1, color = "red")+
-  # geom_point(data = subset(kms_to_plot, condition == "vision"), aes(x=time_peak_acceleration, y=min(noise_to_plot$med_1)), size = 1, color = "red")+
-  # geom_point(data = subset(kms_to_plot, condition == "vision"), aes(x=time_peak_deceleration, y=min(noise_to_plot$med_1)), size = 1, color = "red")+
-  # geom_point(data = subset(kms_to_plot, condition == "no_vision"), aes(x=time_peak_velocity, y=min(noise_to_plot$med_1)), size = 1, color = "turquoise")+
-  # geom_point(data = subset(kms_to_plot, condition == "no_vision"), aes(x=time_peak_acceleration, y=min(noise_to_plot$med_1)), size = 1, color = "turquoise")+
-  # geom_point(data = subset(kms_to_plot, condition == "no_vision"), aes(x=time_peak_deceleration, y=min(noise_to_plot$med_1)), size = 1, color = "turquoise")+
+  geom_line(data=subset(subj_noise, condition == "vision"), aes(x=time_lores, y=avg_SD), size = 0.75, color = "black", linetype = "dotted")+
+  geom_line(data=subset(subj_noise, condition == "no_vision"), aes(x=time_lores, y=avg_SD), size = 0.75, color = "black", linetype = "dotted")+
+  geom_point(data = subset(kms_to_plot, condition == "vision"), aes(x=time_peak_velocity, y=min(noise_to_plot$med_1)), size = 1, color = "red")+
+  geom_point(data = subset(kms_to_plot, condition == "vision"), aes(x=time_peak_acceleration, y=min(noise_to_plot$med_1)), size = 1, color = "red")+
+  geom_point(data = subset(kms_to_plot, condition == "vision"), aes(x=time_peak_deceleration, y=min(noise_to_plot$med_1)), size = 1, color = "red")+
+  geom_point(data = subset(kms_to_plot, condition == "no_vision"), aes(x=time_peak_velocity, y=min(noise_to_plot$med_1)), size = 1, color = "turquoise")+
+  geom_point(data = subset(kms_to_plot, condition == "no_vision"), aes(x=time_peak_acceleration, y=min(noise_to_plot$med_1)), size = 1, color = "turquoise")+
+  geom_point(data = subset(kms_to_plot, condition == "no_vision"), aes(x=time_peak_deceleration, y=min(noise_to_plot$med_1)), size = 1, color = "turquoise")+
   ylab('Log Standard Deviation')+
   xlab('Proportion of Time')+
-  annotate("text", label = "Vision", x = 2/15, y = -1.0, color = "turquoise")+
-  annotate("text", label = "No Vision", x = 4/15, y = -2.5, color = "red")+
+  annotate("text", label = "Vision", x = 1/15, y = -1.0, color = "turquoise", size = 6)+
+  annotate("text", label = "No Vision", x = 5/15, y = -2.5, color = "red", size = 6)+
   theme_gray(base_size = 20)+
   theme(
     panel.grid.major = element_line(size = 0)
@@ -4293,7 +4293,7 @@ noise_to_plot_effect %>%
   ggplot()+
   geom_line(aes(x=time, y=med_1), color = "purple")+
   geom_ribbon(aes(x=time, ymin=lo95_1, ymax=hi95_1), fill = "purple", alpha=0.5)+
-  geom_line(data=subj_noise_effect, aes(x=time_lores, y=effect), size = 0.5, color = "gray50")+
+  geom_line(data=subj_noise_effect, aes(x=time_lores, y=effect), size = 0.75, color = "black", linetype = "dotted")+
   geom_point(data = kms_to_plot_effect, aes(x=time_peak_velocity, y=min(noise_to_plot_effect$lo95_1)), size = 1)+
   geom_point(data = kms_to_plot_effect, aes(x=time_peak_acceleration, y=min(noise_to_plot_effect$lo95_1)), size = 1)+
   geom_point(data = kms_to_plot_effect, aes(x=time_peak_deceleration, y=min(noise_to_plot_effect$lo95_1)), size = 1)+
