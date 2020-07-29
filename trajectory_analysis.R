@@ -292,8 +292,9 @@ dat$touch_screen_error = ifelse(
 dat %>%
   dplyr::filter(practice == "experimental") %>%
   dplyr::group_by(id) %>% 
-  dplyr::summarize(count_id_touch_error = sum(touch_screen_error)) %>% 
-  dplyr::summarize(mean_screen_error = mean(count_id_touch_error))
+  dplyr::summarize(count_id_touch_error = sum(touch_screen_error)) %>%
+  dplyr::summarize(mean_screen_error = mean(count_id_touch_error)) %>%
+  dplyr::mutate(mean_screen_error_prop = mean_screen_error / 40)
 
 
 # look at 'too soons'!
@@ -367,7 +368,8 @@ dat %>%
   dplyr::filter(practice == "experimental") %>%
   dplyr::group_by( id) %>% 
   dplyr::summarize(count_id_opto_error = sum(optotrak_error)) %>%
-  dplyr::summarize(mean_opto_error = mean(count_id_opto_error))
+  dplyr::summarize(mean_opto_error = mean(count_id_opto_error)) %>%
+  dplyr::summarise(mean_opto_error_prop = mean_opto_error / 40)
 
 
 # Eliminate Bad Trials ----
@@ -1123,9 +1125,6 @@ plot_trim = function(ids_use, dv, dev, y_label) {
     ylab(y_label)+
     facet_grid(id~condition) %>% print()
 }
-
-
-####  NOTE: NORMALIZTION SORT OF TAKES CARE OF OUTLYING TRIALS ####
 
 
 # X
@@ -2107,7 +2106,7 @@ ezANOVA(
   , within = .(condition, norm_time)
 )
 # Figure 9 ----
-ezPlot(
+gg_epsilloid = ezPlot(
   df_ellipsoid
   , dv = volume
   , wid = id
@@ -2118,8 +2117,10 @@ ezPlot(
   , y_lab = "Volume (mm cubed)"
   , x_lab = "Proportion of Movement"
   , split_lab = "Vision Condition"
-)
-
+  , print_code = FALSE
+) 
+gg_epsilloid +
+  theme(text = element_text(size = 18))
 
 
 ########################################################
