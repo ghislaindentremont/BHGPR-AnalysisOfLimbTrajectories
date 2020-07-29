@@ -2631,7 +2631,7 @@ mat_long_trim = as.matrix(df_for_matlab[,c("id", "condition", "trial", "y_inter"
 
 
 # From MATLAB ----
-display_fanovan = function(filename, norm_y = T) {
+display_fanovan = function(filename, norm_y = T, text_size, file_path = NULL) {
   # p-values
   px = read.csv(sprintf('%s/px.csv', filename), header = F)
   names(px) = c("p_value")
@@ -2738,8 +2738,13 @@ display_fanovan = function(filename, norm_y = T) {
       geom_path(aes(x=time, y=x, group=condition, color=condition))+
       geom_area(data = subset(fanovan, condition == "V"), aes(x=time, y=as.numeric(px_sig)*max(x+x_SE*tval)), alpha = 0.2)+
       geom_ribbon(aes(x=time, ymin=x-x_SE*tval, ymax=x+x_SE*tval, group=condition, fill=condition), alpha = 0.2)+
+      theme(text = element_text(size = text_size)) +
       labs(x = "Proportion of Movement", y = "X Position (mm)", color = "Vision Condition", fill = "Vision Condition") -> gg
     print(gg)
+    if (!is.null(file_path)) {
+      ggsave("fanovan_X.png", path = file_path, dpi = 600)
+    }
+   
     
     # y vs. time
     fanovan %>%
@@ -2747,8 +2752,12 @@ display_fanovan = function(filename, norm_y = T) {
       geom_path(aes(x=time, y=y, group=condition, color=condition))+
       geom_area(data = subset(fanovan, condition == "V"), aes(x=time, y=as.numeric(py_sig)*max(y+y_SE*tval)), alpha = 0.2)+
       geom_ribbon(aes(x=time, ymin=y-y_SE*tval, ymax=y+y_SE*tval, group=condition, fill=condition), alpha = 0.2)+
+      theme(text = element_text(size = text_size)) +
       labs(x = "Proportion of Movement", y = "Y Position (mm)", color = "Vision Condition", fill = "Vision Condition") -> gg
     print(gg)
+    if (!is.null(file_path)) {
+      ggsave("fanovan_Y.png", path = file_path, dpi = 600)
+    }
     
     # z vs. time
     fanovan %>%
@@ -2756,8 +2765,12 @@ display_fanovan = function(filename, norm_y = T) {
       geom_path(aes(x=time, y=z, group=condition, color=condition))+
       geom_area(data = subset(fanovan, condition == "NV"), aes(x=time, y=as.numeric(pz_sig)*max(z+z_SE*tval)), alpha = 0.2)+
       geom_ribbon(aes(x=time, ymin=z-z_SE*tval, ymax=z+z_SE*tval, group=condition, fill=condition), alpha = 0.2)+
+      theme(text = element_text(size = text_size)) +
       labs(x = "Proportion of Movement", y = "Z Position (mm)", color = "Vision Condition", fill = "Vision Condition") -> gg
     print(gg)
+    if (!is.null(file_path)) {
+      ggsave("fanovan_Z.png", path = file_path, dpi = 600)
+    }
     
   }
   
@@ -2765,7 +2778,7 @@ display_fanovan = function(filename, norm_y = T) {
 }
 
 # Figure 10 ----
-fanovan_norm_time = display_fanovan('./fanovan_norm_time', norm_y = F)
+fanovan_norm_time = display_fanovan('./fanovan_norm_time', norm_y = F, text_size = 18)
 
 # # compare my functional anova analysis with fanovan
 # df_spline_grand_avg_effectx = df_spline_grand_avg_effect[df_spline_grand_avg_effect$coordinate == "x_inter",]
