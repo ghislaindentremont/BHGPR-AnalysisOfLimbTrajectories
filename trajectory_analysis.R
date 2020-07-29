@@ -3842,13 +3842,13 @@ gg_noise_amplitude_sds_effect = get_violin(noise_subj_amplitude_sds_e, "Noise Am
 #     , lo50_2 = quantile(condition2,.25)
 #     , hi50_2 = quantile(condition2,.75)
 #   )
-# 
-# # get SDs
-# df_long_biny %>%
-#   group_by(id, time_lores, condition) %>%
-#   dplyr::summarise(
-#     SD = log(sd(position_bin_scale))
-#   ) -> noise_df_long_biny
+
+# get SDs
+df_long_biny %>%
+  group_by(id, time_lores, condition) %>%
+  dplyr::summarise(
+    SD = log(sd(position_bin_scale))
+  ) -> noise_df_long_biny
 # 
 # # Figure 17 Right ----
 # noise_subj_to_plot %>%
@@ -3887,11 +3887,11 @@ gg_noise_amplitude_sds_effect = get_violin(noise_subj_amplitude_sds_e, "Noise Am
 #     , legend.position = "none"
 #     , panel.background = element_rect(fill = "white", color = "black")
 #   )
-# 
-# # need to order participant IDs from 1 to 29 for df_id_meansy
-# noise_df_long_biny$orig_id = noise_df_long_biny$id
-# noise_df_long_biny$id = factor(as.numeric(droplevels(noise_df_long_biny$id)))
-# 
+ 
+# need to order participant IDs from 1 to 29 for df_id_meansy
+noise_df_long_biny$orig_id = noise_df_long_biny$id
+noise_df_long_biny$id = factor(as.numeric(droplevels(noise_df_long_biny$id)))
+ 
 # noise_by_subj = function(id_lo, id_hi) {
 #   noise_subj_to_plot %>%
 #     dplyr::filter(id <= id_hi, id >= id_lo) %>%
