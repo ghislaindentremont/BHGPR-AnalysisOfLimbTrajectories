@@ -2773,6 +2773,25 @@ display_fanovan = function(filename, norm_y = T, text_size, file_path = NULL) {
       ggsave("fanovan_Z.png", path = file_path, dpi = 600)
     }
     
+    # all three at once 
+    fanovan %>%
+      ggplot()+
+      geom_path(aes(x=time, y=z, group=condition, color=condition))+
+      geom_path(aes(x=time, y=y, group=condition, color=condition))+
+      geom_path(aes(x=time, y=x, group=condition, color=condition))+
+      geom_ribbon(aes(x=time, ymin=z-z_SE*tval, ymax=z+z_SE*tval, group=condition, fill=condition), alpha = 0.2)+
+      geom_ribbon(aes(x=time, ymin=y-y_SE*tval, ymax=y+y_SE*tval, group=condition, fill=condition), alpha = 0.2)+
+      geom_ribbon(aes(x=time, ymin=x-x_SE*tval, ymax=x+x_SE*tval, group=condition, fill=condition), alpha = 0.2)+
+      annotate("text", label = "Y", x = 0.25, y = 200, size = 6)+
+      annotate("text", label = "X", x = 0.75, y = 75, size = 6)+
+      annotate("text", label = "Z", x = 0.50, y = 0, size = 6)+
+      theme(text = element_text(size = text_size)) +
+      labs(x = "Proportion of Movement", y = "Position (mm)", color = "Vision Condition", fill = "Vision Condition") -> gg
+    print(gg)
+    if (!is.null(file_path)) {
+      ggsave("fanovan_all_three.png", path = file_path, dpi = 600)
+    }
+    
   }
   
   return(fanovan)
