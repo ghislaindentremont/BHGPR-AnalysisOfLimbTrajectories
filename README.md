@@ -34,7 +34,7 @@ NOTE: ‘optotrak_data.csv’ is stored using Git Large File Storage (LFS). To d
 
 ‘data_for_stan15.RData’: The data list to be fed to the BHGPR model via the ‘cluster_analysis.R’ script. The data in this repository differs from the data that was actually fed to the cluster in 2017 only in that the participant ids are now randomized.
 
-‘cluster_analysis.R’ : The script fed to Dalhousie’s computer cluster to compute the Bayesian posterior distributions. Note: this script was used to generate the posterior samples found in ‘post_samples_for_pop_estimates.rdata’ in 2017. The versions of R and rstan run by the cluster computers are unknown. The script current generates a “Cluster setup failed” error message with the aforementioned specifications. I am unsure of the solution at the moment.
+‘cluster_analysis.R’ : The script fed to Dalhousie’s computer cluster to compute the Bayesian posterior distributions. Note: this script was used to generate the posterior samples found in ‘post_samples_for_pop_estimates.rdata’ in 2017. The versions of R and rstan run by the cluster computers are unknown. The script appears to run with the current R and rstan versions but has not been re-run in full (with 16 chains and 1000 iterations / chain) on a cluster since 2017. 
 
 ‘gp_regression.stan’: The BHGPR model. The ‘cluster_analysis.R’ script loads this model. 
 
