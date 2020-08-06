@@ -15,10 +15,10 @@ mod = rstan::stan_model("gp_regression.stan")
 post = sampling(
  mod
   , data = data_for_stan
-  , iter = 10 #00
+  , iter = 100 #1000
   , init = 0
-  , chains =  4 #16
-  , cores = 4 #16
+  , chains =  1 #16
+  , cores = 1 #16
   , verbose = T
   , refresh = 1
   , control = list(
