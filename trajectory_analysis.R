@@ -1911,7 +1911,7 @@ do_anovas = function(dv, YL, XL, SL) {
     # , return_aov = T
   )
   print(ez_print)
-  ezPlot(
+  gg_temp = ezPlot(
     df_outcomes_avg
     , dv = temp
     , wid = id
@@ -1924,16 +1924,27 @@ do_anovas = function(dv, YL, XL, SL) {
     , x_lab = XL
     # , split_lab = SL
   )
+  gg_temp = gg_temp +
+    theme(text = element_text(size = 18))
+  print(gg_temp)
+  ggsave(sprintf("figure_A4_A5_%s.png", dv)
+         , units = "cm"
+         , width = 7.54  * 1.75
+         , height = 7.49 * 1.75
+         , path = "Figures"
+         , dpi = 600
+  )
+  
 }
 
 
 # RT ----
-# Figure 7A ----
+# Figure A4a ----
 do_anovas("good_rt", "RT (ms)", "Vision Condition", "Blocking")
 
 
 # MT ----
-# Figure 7B ----
+# Figure A4b ----
 do_anovas("good_movement_time", "MT (ms)", "Vision Condition", "Blocking")
 
 
@@ -1942,27 +1953,27 @@ do_anovas("good_response_time", "Response Time (ms)", "Vision Condition", "Block
 
 
 # Absolute (2D) Error ----
-# Figure 7C ----
+# Figure A5a ----
 do_anovas("target_error", "Target Error (mm)", "Vision Condition", "Blocking")
 
 
 # Constant Error (Amplitude) ----
-# Figure 7D ----
+# Figure A5b ----
 do_anovas("CE_amp",  "CE (amplitude; mm)", "Vision Condition", "Blocking")
 
 
 # Constant Error (Direction) ----
-# Figure 7E ----
+# Figure A5c ----
 do_anovas("CE_dir",  "CE (direction; mm)", "Vision Condition", "Blocking")
 
 
 # Variable Error (Amplitude) ----
-# Figure 7F ----
+# Figure A5d ----
 do_anovas("VE_amp",  "VE (amplitude; mm)", "Vision Condition", "Blocking")
 
 
 # Variable Error (Direction) ----
-# Figure 7G ----
+# Figure A5e ----
 do_anovas("VE_dir",  "VE (direction; mm)", "Vision Condition", "Blocking")
 
 
@@ -1986,8 +1997,8 @@ ezANOVA(
   # , between = blocking
 )
 
-# Figure 4 ----
-ezPlot(
+# Figure A1 ----
+gg_tapv = ezPlot(
   df_ykinematics
   , dv = time_after_peak_velocity
   , wid = id
@@ -1999,6 +2010,15 @@ ezPlot(
   , y_lab = "TAPV (ms)"
   , x_lab = "Vision Condition"
   # , split_lab = "Blocking"
+)
+gg_tapv +
+  theme(text = element_text(size = 18))
+ggsave("figure_A1.png"
+       , units = "cm"
+       , width = 7.54  * 1.75
+       , height = 7.49 * 1.75
+       , path = "Figures"
+       , dpi = 600
 )
 
 
@@ -2047,8 +2067,8 @@ ezANOVA(
   , wid = id
   , within = .(condition, kinematic_marker)
 )
-# Figure 8 ----
-ezPlot(
+# Figure A6 ----
+gg_spat_var = ezPlot(
   df_yspat_var_anova
   , dv = spatial_variability
   , wid = id
@@ -2058,7 +2078,16 @@ ezPlot(
   , do_bar = T
   , y_lab = "Spatial Variability (SD)"
   , x_lab = "Kinematic Marker"
-  , split_lab = "Vision Condition"
+  , split_lab = "Vision\nCondition"
+)
+gg_spat_var +
+  theme(text = element_text(size = 18))
+ggsave("figure_A6.png"
+       , units = "cm"
+       , width = 10.54  * 1.75
+       , height = 7.49 * 1.75
+       , path = "Figures"
+       , dpi = 600
 )
 
 
@@ -2116,11 +2145,19 @@ gg_epsilloid = ezPlot(
   , do_bar = T
   , y_lab = "Volume (mm cubed)"
   , x_lab = "Proportion of Movement"
-  , split_lab = "Vision Condition"
+  , split_lab = "Vision\nCondition"
   , print_code = FALSE
 ) 
 gg_epsilloid +
   theme(text = element_text(size = 18))
+ggsave("figure_9.png"
+       , units = "cm"
+       , width = 16.94 * 1.75
+       , height = 7.16 * 1.75
+       , path = "Figures"
+       , dpi = 600
+)
+
 
 
 ########################################################
@@ -2199,8 +2236,8 @@ ezANOVA(
   , wid = id
   , within = .(condition, kinematic_marker)
 )
-# Figure 6 ----
-ezPlot(
+# Figure A3 ----
+gg_Rsq = ezPlot(
   df_yrsq_anova
   , dv = R_sq
   , wid = id
@@ -2210,8 +2247,18 @@ ezPlot(
   , do_bar = T
   , y_lab = "R Squared"
   , x_lab = "Kinematic Marker"
-  , split_lab = "Vision Condition"
+  , split_lab = "Vision\nCondition"
 )
+gg_Rsq +
+  theme(text = element_text(size = 18))
+ggsave("figure_A3.png"
+       , units = "cm"
+       , width = 10.54  * 1.75
+       , height = 7.49 * 1.75
+       , path = "Figures"
+       , dpi = 600
+)
+
 
 
 
@@ -2380,8 +2427,8 @@ ezANOVA(
   # , between = .(blocking)
 )
 
-# Figure 5 ----
-ezPlot(
+# Figure A2 ----
+gg_discon = ezPlot(
   df_disccontinuity_anova
   , dv = count
   , wid = id
@@ -2394,6 +2441,16 @@ ezPlot(
   , x_lab = "Vision Condition"
   # , split_lab = "Blocking"
 )
+gg_discon +
+  theme(text = element_text(size = 18))
+ggsave("figure_A2.png"
+       , units = "cm"
+       , width = 7.54  * 1.75
+       , height = 7.49 * 1.75
+       , path = "Figures"
+       , dpi = 600
+)
+
 
 
 
@@ -2742,9 +2799,9 @@ display_fanovan = function(filename, norm_y = T, text_size, file_path = NULL) {
       theme(text = element_text(size = text_size)) +
       labs(x = "Proportion of Movement", y = "X Position (mm)", color = "Vision Condition", fill = "Vision Condition") -> gg
     print(gg)
-    if (!is.null(file_path)) {
-      ggsave("fanovan_X.png", path = file_path, dpi = 600)
-    }
+    # if (!is.null(file_path)) {
+    #   ggsave("fanovan_X.png", path = file_path, dpi = 600)
+    # }
    
     
     # y vs. time
@@ -2756,9 +2813,9 @@ display_fanovan = function(filename, norm_y = T, text_size, file_path = NULL) {
       theme(text = element_text(size = text_size)) +
       labs(x = "Proportion of Movement", y = "Y Position (mm)", color = "Vision Condition", fill = "Vision Condition") -> gg
     print(gg)
-    if (!is.null(file_path)) {
-      ggsave("fanovan_Y.png", path = file_path, dpi = 600)
-    }
+    # if (!is.null(file_path)) {
+    #   ggsave("fanovan_Y.png", path = file_path, dpi = 600)
+    # }
     
     # z vs. time
     fanovan %>%
@@ -2769,9 +2826,17 @@ display_fanovan = function(filename, norm_y = T, text_size, file_path = NULL) {
       theme(text = element_text(size = text_size)) +
       labs(x = "Proportion of Movement", y = "Z Position (mm)", color = "Vision Condition", fill = "Vision Condition") -> gg
     print(gg)
-    if (!is.null(file_path)) {
-      ggsave("fanovan_Z.png", path = file_path, dpi = 600)
-    }
+    # if (!is.null(file_path)) {
+    #   ggsave("fanovan_Z.png", path = file_path, dpi = 600)
+    # }
+    
+    # create DFs for below
+    fanovan_norm_time %>%
+      dplyr::filter(py_sig == T) -> Y_sig
+    fanovan_norm_time %>%
+      dplyr::filter(px_sig == T) -> X_sig
+    fanovan_norm_time %>%
+      dplyr::filter(pz_sig == T) -> Z_sig
     
     # all three at once 
     fanovan %>%
@@ -2782,14 +2847,26 @@ display_fanovan = function(filename, norm_y = T, text_size, file_path = NULL) {
       geom_ribbon(aes(x=time, ymin=z-z_SE*tval, ymax=z+z_SE*tval, group=condition, fill=condition), alpha = 0.2)+
       geom_ribbon(aes(x=time, ymin=y-y_SE*tval, ymax=y+y_SE*tval, group=condition, fill=condition), alpha = 0.2)+
       geom_ribbon(aes(x=time, ymin=x-x_SE*tval, ymax=x+x_SE*tval, group=condition, fill=condition), alpha = 0.2)+
+      annotate("text", label = "Y:", x = 0, y = -10, size = 4)+
+      annotate("text", label = "X:", x = 0, y = -20, size = 4)+
+      annotate("text", label = "Z:", x = 0, y = -30, size = 4)+
+      geom_point(data=Y_sig, aes(x=time, y = py_sig * -10), alpha = 1, size = 0.5)+
+      geom_point(data=X_sig, aes(x=time, y = px_sig * -20), alpha = 1, size = 0.5)+
+      geom_point(data=Z_sig, aes(x=time, y = pz_sig * -30), alpha = 1, size = 0.5)+
       annotate("text", label = "Y", x = 0.25, y = 200, size = 6)+
       annotate("text", label = "X", x = 0.75, y = 75, size = 6)+
-      annotate("text", label = "Z", x = 0.50, y = 0, size = 6)+
+      annotate("text", label = "Z", x = 0.50, y = 35, size = 6)+
       theme(text = element_text(size = text_size)) +
-      labs(x = "Proportion of Movement", y = "Position (mm)", color = "Vision Condition", fill = "Vision Condition") -> gg
+      labs(x = "Proportion of Movement", y = "Position (mm)", color = "Vision\nCondition", fill = "Vision\nCondition") -> gg
     print(gg)
     if (!is.null(file_path)) {
-      ggsave("fanovan_all_three.png", path = file_path, dpi = 600)
+      ggsave("figure_10.png"
+             , units = "cm"
+             , width = 16.54 * 1.25
+             , height = 11.89 * 1.25
+             , path = file_path
+             , dpi = 600
+             )
     }
     
   }
@@ -2798,7 +2875,7 @@ display_fanovan = function(filename, norm_y = T, text_size, file_path = NULL) {
 }
 
 # Figure 10 ----
-fanovan_norm_time = display_fanovan('./fanovan_norm_time', norm_y = F, text_size = 18)
+fanovan_norm_time = display_fanovan(filename = "fanovan_norm_time", norm_y = F, text_size = 18, file_path = "Figures")
 
 # # compare my functional anova analysis with fanovan
 # df_spline_grand_avg_effectx = df_spline_grand_avg_effect[df_spline_grand_avg_effect$coordinate == "x_inter",]
@@ -3397,6 +3474,14 @@ volatilities %>%
 
 # Figure 12A ----
 gg_volatilities = get_violin(volatilities_c, "Volatility")
+ggsave(
+  filename = "figure_12a.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 volatilities %>%
   dplyr::select(-c(vision, no_vision)) %>%
@@ -3404,7 +3489,14 @@ volatilities %>%
 
 # Figure 12B ----
 gg_volatilities_effect = get_violin(volatilities_e, "Volatility", iseffect = T, hline = T)
-
+ggsave(
+  filename = "figure_12b.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 # population mean amplitude
 amplitudes = data.frame(post_samples$amplitude)
@@ -3418,6 +3510,14 @@ amplitudes %>%
 
 # Figure 12C ----
 gg_amplitudes = get_violin(amplitudes_c, "Amplitude")
+ggsave(
+  filename = "figure_12c.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 amplitudes %>%
   dplyr::select(-c(vision, no_vision)) %>%
@@ -3425,6 +3525,14 @@ amplitudes %>%
 
 # Figure 12D ----
 gg_amplitudes_effect = get_violin(amplitudes_e, "Amplitude", iseffect = T, hline = T)
+ggsave(
+  filename = "figure_12d.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 
 # participant mean amplitude sd
@@ -3439,6 +3547,14 @@ subj_amplitude_sds %>%
 
 # Figure 12G ----
 gg_amplitude_sds = get_violin(subj_amplitude_sds_c, "Amplitude Variability (SD)")
+ggsave(
+  filename = "figure_12g.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 subj_amplitude_sds %>%
   dplyr::select(-c(vision, no_vision)) %>%
@@ -3446,7 +3562,14 @@ subj_amplitude_sds %>%
 
 # Figure 12H ----
 gg_amplitude_sds_effect = get_violin(subj_amplitude_sds_e, "Amplitude Variability (SD)", iseffect = T, hline = T)
-
+ggsave(
+  filename = "figure_12h.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 # participant mean volatilty sd
 subj_volatility_sds = data.frame(post_samples$subj_volatility_sd)
@@ -3460,6 +3583,14 @@ subj_volatility_sds %>%
 
 # Figure 12E ----
 gg_volatility_sds = get_violin(subj_volatility_sds_c, "Volatility Variability (SD)")
+ggsave(
+  filename = "figure_12e.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 subj_volatility_sds %>%
   dplyr::select(-c(vision:no_vision)) %>%
@@ -3467,7 +3598,14 @@ subj_volatility_sds %>%
 
 # Figure 12F ----
 gg_volatility_sds_effect = get_violin(subj_volatility_sds_e, "Volatility Variability (SD)", iseffect = T, hline = T)
-
+ggsave(
+  filename = "figure_12f.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 
 # population noise volatilty
@@ -3482,6 +3620,14 @@ noise_volatilities %>%
 
 # Figure 13A ----
 gg_noise_volatilities = get_violin(noise_volatilities_c, "Noise Volatility")
+ggsave(
+  filename = "figure_13a.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 noise_volatilities %>%
   dplyr::select(-c(vision:no_vision)) %>%
@@ -3489,7 +3635,14 @@ noise_volatilities %>%
 
 # Figure 13B ----
 gg_noise_volatilities_effect = get_violin(noise_volatilities_e, "Noise Volatility", iseffect = T, hline = T)
-
+ggsave(
+  filename = "figure_13b.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 
 # population noise amplitude
@@ -3504,6 +3657,14 @@ noise_amplitudes %>%
 
 # Figure 13C ----
 gg_noise_amplitudes = get_violin(noise_amplitudes_c, "Noise Amplitude")
+ggsave(
+  filename = "figure_13c.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 noise_amplitudes %>%
   dplyr::select(-c(vision:no_vision)) %>%
@@ -3511,7 +3672,14 @@ noise_amplitudes %>%
 
 # Figure 13D ----
 gg_noise_amplitudes_effect = get_violin(noise_amplitudes_e, "Noise Amplitude", iseffect = T, hline = T)
-
+ggsave(
+  filename = "figure_13d.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 
 # participant noise volatilty sd
@@ -3526,6 +3694,14 @@ noise_subj_volatility_sds %>%
 
 # Figure 13E ----
 gg_noise_volatility_sds = get_violin(noise_subj_volatility_sds_c, "Noise Volatility Variability (SD)")
+ggsave(
+  filename = "figure_13e.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 noise_subj_volatility_sds %>%
   dplyr::select(-c(vision:no_vision)) %>%
@@ -3533,7 +3709,14 @@ noise_subj_volatility_sds %>%
 
 # Figure 13F ----
 gg_noise_volatility_sds_effect = get_violin(noise_subj_volatility_sds_e, "Noise Volatility Variability (SD)", iseffect = T, hline = T)
-
+ggsave(
+  filename = "figure_13f.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 
 # participant noise amplitude sd
@@ -3548,6 +3731,14 @@ noise_subj_amplitude_sds %>%
 
 # Figure 13G ----
 gg_noise_amplitude_sds = get_violin(noise_subj_amplitude_sds_c, "Noise Amplitude Variability (SD)")
+ggsave(
+  filename = "figure_13g.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 noise_subj_amplitude_sds %>%
   dplyr::select(-c(vision:no_vision)) %>%
@@ -3555,9 +3746,14 @@ noise_subj_amplitude_sds %>%
 
 # Figure 13H ----
 gg_noise_amplitude_sds_effect = get_violin(noise_subj_amplitude_sds_e, "Noise Amplitude Variability (SD)", iseffect = T, hline = T)
-
-
-
+ggsave(
+  filename = "figure_13h.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 3.84 *3
+  , height = 4.3 *3
+  , dpi = 600
+)
 
 
 # ####   Subject Level
@@ -4096,6 +4292,14 @@ to_plot %>%
     , panel.grid.minor = element_line(size = 0)
     , panel.background = element_rect(fill = "white", color = "black")
   )
+ggsave(
+  filename = "figure_18a.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 7.89 *2
+  , height = 6.25 *2
+  , dpi = 600
+)
 
 # summarize to get difference
 f_sum %>%
@@ -4166,7 +4370,14 @@ to_plot_effect %>%
     , panel.grid.minor = element_line(size = 0)
     , panel.background = element_rect(fill = "white", color = "black")
   )
-
+ggsave(
+  filename = "figure_18b.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 7.89 *2
+  , height = 6.25 *2
+  , dpi = 600
+)
 
 # Noise ----
 noise_f = post_samples$noise_f
@@ -4281,6 +4492,14 @@ noise_to_plot %>%
     , legend.position = "none"
     , panel.background = element_rect(fill = "white", color = "black")
   )
+ggsave(
+  filename = "figure_19a.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 7.89 *2
+  , height = 6.25 *2
+  , dpi = 600
+)
 
 # summarize to get difference
 noise_f_sum %>%
@@ -4326,5 +4545,12 @@ noise_to_plot_effect %>%
     , panel.grid.minor = element_line(size = 0)
     , panel.background = element_rect(fill = "white", color = "black")
   )
-
+ggsave(
+  filename = "figure_19b.png"
+  , path="Figures"
+  , units = "cm"
+  , width = 7.89 *2
+  , height = 6.25 *2
+  , dpi = 600
+  )
 
