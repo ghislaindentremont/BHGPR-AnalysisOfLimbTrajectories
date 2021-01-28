@@ -40,4 +40,6 @@ NOTE: ‘optotrak_data.csv’ is stored using Git Large File Storage (LFS). To d
 
 ‘post_samples_for_pop_estimates.rdata’: The partial results of the BHGPR analysis run on the cluster in 2017. This data file contains information regarding the posterior distributions of the population estimates from the Bayesian model. All the posterior distributions displayed in the manuscript are contained in this rdata object. 
 
-‘Experiment Code’ : The MATLAB files in this folder were used to run the experiment on the touch screen described in the methods section of the manuscript as well as to control the PLATO goggles. 
+‘Experiment Code’: The MATLAB files in this folder were used to run the experiment on the touch screen described in the methods section of the manuscript as well as to control the PLATO goggles. 
+
+'Figures': Folder containing figures presented in the manuscript that were generated  by 'trajectory_analysis.R'.
