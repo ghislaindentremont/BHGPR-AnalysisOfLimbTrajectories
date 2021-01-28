@@ -2831,11 +2831,11 @@ display_fanovan = function(filename, norm_y = T, text_size, file_path = NULL) {
     # }
     
     # create DFs for below
-    fanovan_norm_time %>%
+    fanovan %>%
       dplyr::filter(py_sig == T) -> Y_sig
-    fanovan_norm_time %>%
+    fanovan %>%
       dplyr::filter(px_sig == T) -> X_sig
-    fanovan_norm_time %>%
+    fanovan %>%
       dplyr::filter(pz_sig == T) -> Z_sig
     
     # all three at once 
