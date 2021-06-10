@@ -1925,9 +1925,27 @@ do_anovas = function(dv, YL, XL, SL) {
     # , split_lab = SL
   )
   gg_temp = gg_temp +
-    theme(text = element_text(size = 18))
+    geom_point(size = 3)+
+    geom_line(
+      mapping = aes(
+        x = I(as.numeric(condition))
+      )
+      , size = 1
+    )+
+    geom_errorbar(
+      mapping = aes(
+        ymin = lo
+        , ymax = hi
+      )
+      , linetype = 1
+      , show.legend = FALSE
+      , width = 0.25
+      # , alpha = .5
+      , size = 1
+    )+
+    theme(text = element_text(size = 24))  #18
   print(gg_temp)
-  ggsave(sprintf("figure_A4_A5_%s.png", dv)
+  ggsave(sprintf("figure_A1_A2_%s.png", dv)
          , units = "cm"
          , width = 7.54  * 1.75
          , height = 7.49 * 1.75
@@ -1939,12 +1957,12 @@ do_anovas = function(dv, YL, XL, SL) {
 
 
 # RT ----
-# Figure A4a ----
+# Figure A1a ----
 do_anovas("good_rt", "RT (ms)", "Vision Condition", "Blocking")
 
 
 # MT ----
-# Figure A4b ----
+# Figure A1b ----
 do_anovas("good_movement_time", "MT (ms)", "Vision Condition", "Blocking")
 
 
@@ -1953,28 +1971,29 @@ do_anovas("good_response_time", "Response Time (ms)", "Vision Condition", "Block
 
 
 # Absolute (2D) Error ----
-# Figure A5a ----
+# Figure A2a ----
 do_anovas("target_error", "Target Error (mm)", "Vision Condition", "Blocking")
 
-
-# Constant Error (Amplitude) ----
-# Figure A5b ----
-do_anovas("CE_amp",  "CE (amplitude; mm)", "Vision Condition", "Blocking")
-
-
-# Constant Error (Direction) ----
-# Figure A5c ----
-do_anovas("CE_dir",  "CE (direction; mm)", "Vision Condition", "Blocking")
-
-
 # Variable Error (Amplitude) ----
-# Figure A5d ----
+# Figure A2b ----
 do_anovas("VE_amp",  "VE (amplitude; mm)", "Vision Condition", "Blocking")
 
 
 # Variable Error (Direction) ----
-# Figure A5e ----
+# Figure A2c ----
 do_anovas("VE_dir",  "VE (direction; mm)", "Vision Condition", "Blocking")
+
+
+# Constant Error (Amplitude) ----
+# Figure A2d ----
+do_anovas("CE_amp",  "CE (amplitude; mm)", "Vision Condition", "Blocking")
+
+
+# Constant Error (Direction) ----
+# Figure A2e ----
+do_anovas("CE_dir",  "CE (direction; mm)", "Vision Condition", "Blocking")
+
+
 
 
 
@@ -1997,7 +2016,7 @@ ezANOVA(
   # , between = blocking
 )
 
-# Figure A1 ----
+# Figure 3 Left ----
 gg_tapv = ezPlot(
   df_ykinematics
   , dv = time_after_peak_velocity
@@ -2007,13 +2026,32 @@ gg_tapv = ezPlot(
   , x = condition
   # , split = blocking
   , do_bar = T
-  , y_lab = "TAPV (ms)"
+  , y_lab = "Proportional TAPV"
   , x_lab = "Vision Condition"
   # , split_lab = "Blocking"
 )
-gg_tapv +
-  theme(text = element_text(size = 18))
-ggsave("figure_A1.png"
+gg_tapv = gg_tapv  +
+  geom_point(size = 3)+
+  geom_line(
+    mapping = aes(
+      x = I(as.numeric(condition))
+    )
+    , size = 1
+  )+
+  geom_errorbar(
+    mapping = aes(
+      ymin = lo
+      , ymax = hi
+    )
+    , linetype = 1
+    , show.legend = FALSE
+    , width = 0.25
+    # , alpha = .5
+    , size = 1
+  )+
+  theme(text = element_text(size = 24))  #18
+print(gg_tapv)
+ggsave("figure_3_TAPV.png"
        , units = "cm"
        , width = 7.54  * 1.75
        , height = 7.49 * 1.75
@@ -2067,7 +2105,7 @@ ezANOVA(
   , wid = id
   , within = .(condition, kinematic_marker)
 )
-# Figure A6 ----
+# Figure A3C ----
 gg_spat_var = ezPlot(
   df_yspat_var_anova
   , dv = spatial_variability
@@ -2080,9 +2118,39 @@ gg_spat_var = ezPlot(
   , x_lab = "Kinematic Marker"
   , split_lab = "Vision\nCondition"
 )
-gg_spat_var +
-  theme(text = element_text(size = 18))
-ggsave("figure_A6.png"
+gg_spat_var = gg_spat_var +
+  geom_point(
+    mapping = aes(
+      colour = condition
+      , shape = condition
+    )
+    , alpha = .8
+    , size = 3
+  )+
+  geom_line(
+    mapping = aes(
+      colour = condition
+      , linetype = condition
+      , x = I(as.numeric(kinematic_marker))
+    )
+    , alpha = .8
+    , size = 1
+  )+
+  geom_errorbar(
+    mapping = aes(
+      colour = condition
+      , ymin = lo
+      , ymax = hi
+    )
+    , linetype = 1
+    , show.legend = FALSE
+    , width = 0.25
+    , alpha = .5
+    , size = 1
+  )+
+  theme(text = element_text(size = 24))  #18
+print(gg_spat_var)
+ggsave("figure_A3_spar_var.png"
        , units = "cm"
        , width = 10.54  * 1.75
        , height = 7.49 * 1.75
@@ -2134,7 +2202,7 @@ ezANOVA(
   , wid = id
   , within = .(condition, norm_time)
 )
-# Figure 9 ----
+# Figure 3 Right ----
 gg_epsilloid = ezPlot(
   df_ellipsoid
   , dv = volume
@@ -2150,7 +2218,7 @@ gg_epsilloid = ezPlot(
 ) 
 gg_epsilloid +
   theme(text = element_text(size = 18))
-ggsave("figure_9.png"
+ggsave("figure_3_epsilloid.png"
        , units = "cm"
        , width = 16.94 * 1.75
        , height = 7.16 * 1.75
@@ -2236,7 +2304,7 @@ ezANOVA(
   , wid = id
   , within = .(condition, kinematic_marker)
 )
-# Figure A3 ----
+# Figure A3B ----
 gg_Rsq = ezPlot(
   df_yrsq_anova
   , dv = R_sq
@@ -2249,9 +2317,39 @@ gg_Rsq = ezPlot(
   , x_lab = "Kinematic Marker"
   , split_lab = "Vision\nCondition"
 )
-gg_Rsq +
-  theme(text = element_text(size = 18))
-ggsave("figure_A3.png"
+gg_Rsq = gg_Rsq + 
+geom_point(
+  mapping = aes(
+    colour = condition
+    , shape = condition
+  )
+  , alpha = .8
+  , size = 3
+)+
+  geom_line(
+    mapping = aes(
+      colour = condition
+      , linetype = condition
+      , x = I(as.numeric(kinematic_marker))
+    )
+    , alpha = .8
+    , size = 1
+  )+
+  geom_errorbar(
+    mapping = aes(
+      colour = condition
+      , ymin = lo
+      , ymax = hi
+    )
+    , linetype = 1
+    , show.legend = FALSE
+    , width = 0.25
+    , alpha = .5
+    , size = 1
+  )+
+  theme(text = element_text(size = 24))
+print(gg_Rsq)
+ggsave("figure_A3_Rsq.png"
        , units = "cm"
        , width = 10.54  * 1.75
        , height = 7.49 * 1.75
@@ -2427,7 +2525,7 @@ ezANOVA(
   # , between = .(blocking)
 )
 
-# Figure A2 ----
+# Figure A3A ----
 gg_discon = ezPlot(
   df_disccontinuity_anova
   , dv = count
@@ -2441,9 +2539,28 @@ gg_discon = ezPlot(
   , x_lab = "Vision Condition"
   # , split_lab = "Blocking"
 )
-gg_discon +
-  theme(text = element_text(size = 18))
-ggsave("figure_A2.png"
+gg_discon = gg_discon +
+geom_point(size=3)+
+  geom_line(
+    mapping = aes(
+      x = I(as.numeric(condition))
+    )
+    , size = 1
+  )+
+  geom_errorbar(
+    mapping = aes(
+      ymin = lo
+      , ymax = hi
+    )
+    , linetype = 1
+    , show.legend = FALSE
+    , width = 0.25
+    , alpha = .5
+    , size = 1
+  )+
+  theme(text = element_text(size = 24))
+print(gg_discon)
+ggsave("figure_A3_discontinuities.png"
        , units = "cm"
        , width = 7.54  * 1.75
        , height = 7.49 * 1.75
@@ -2860,7 +2977,7 @@ display_fanovan = function(filename, norm_y = T, text_size, file_path = NULL) {
       labs(x = "Proportion of Movement", y = "Position (mm)", color = "Vision\nCondition", fill = "Vision\nCondition") -> gg
     print(gg)
     if (!is.null(file_path)) {
-      ggsave("figure_10.png"
+      ggsave("figure_anovan.png"
              , units = "cm"
              , width = 16.54 * 1.25
              , height = 11.89 * 1.25
@@ -2874,8 +2991,8 @@ display_fanovan = function(filename, norm_y = T, text_size, file_path = NULL) {
   return(fanovan)
 }
 
-# Figure 10 ----
-fanovan_norm_time = display_fanovan(filename = "fanovan_norm_time", norm_y = F, text_size = 18, file_path = "Figures")
+# Fanova Plot ----
+fanovan_norm_time = display_fanovan(filename = "fanovan_norm_time", norm_y = F, text_size = 18, file_path = NULL)
 
 # # compare my functional anova analysis with fanovan
 # df_spline_grand_avg_effectx = df_spline_grand_avg_effect[df_spline_grand_avg_effect$coordinate == "x_inter",]
@@ -3472,10 +3589,10 @@ volatilities %>%
   dplyr::select(-c(effect)) %>%
   gather(condition, value, vision:no_vision) -> volatilities_c
 
-# Figure 12A ----
+# Figure 4A ----
 gg_volatilities = get_violin(volatilities_c, "Volatility")
 ggsave(
-  filename = "figure_12a.png"
+  filename = "figure_4a.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3487,10 +3604,10 @@ volatilities %>%
   dplyr::select(-c(vision, no_vision)) %>%
   gather(condition, value, effect) -> volatilities_e
 
-# Figure 12B ----
+# Figure 4B ----
 gg_volatilities_effect = get_violin(volatilities_e, "Volatility", iseffect = T, hline = T)
 ggsave(
-  filename = "figure_12b.png"
+  filename = "figure_4b.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3508,10 +3625,10 @@ amplitudes %>%
   dplyr::select(-c(effect)) %>%
   gather(condition, value, vision:no_vision) -> amplitudes_c
 
-# Figure 12C ----
+# Figure 4C ----
 gg_amplitudes = get_violin(amplitudes_c, "Amplitude")
 ggsave(
-  filename = "figure_12c.png"
+  filename = "figure_4c.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3523,10 +3640,10 @@ amplitudes %>%
   dplyr::select(-c(vision, no_vision)) %>%
   gather(condition, value, effect) -> amplitudes_e
 
-# Figure 12D ----
+# Figure 4D ----
 gg_amplitudes_effect = get_violin(amplitudes_e, "Amplitude", iseffect = T, hline = T)
 ggsave(
-  filename = "figure_12d.png"
+  filename = "figure_4d.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3545,10 +3662,10 @@ subj_amplitude_sds %>%
   dplyr::select(-c(effect)) %>%
   gather(condition, value, vision:no_vision) -> subj_amplitude_sds_c
 
-# Figure 12G ----
+# Figure 4G ----
 gg_amplitude_sds = get_violin(subj_amplitude_sds_c, "Amplitude Variability (SD)")
 ggsave(
-  filename = "figure_12g.png"
+  filename = "figure_4g.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3560,10 +3677,10 @@ subj_amplitude_sds %>%
   dplyr::select(-c(vision, no_vision)) %>%
   gather(condition, value, effect) -> subj_amplitude_sds_e
 
-# Figure 12H ----
+# Figure 4H ----
 gg_amplitude_sds_effect = get_violin(subj_amplitude_sds_e, "Amplitude Variability (SD)", iseffect = T, hline = T)
 ggsave(
-  filename = "figure_12h.png"
+  filename = "figure_4h.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3581,10 +3698,10 @@ subj_volatility_sds %>%
   dplyr::select(-c(effect)) %>%
   gather(condition, value, vision:no_vision) -> subj_volatility_sds_c
 
-# Figure 12E ----
+# Figure 4E ----
 gg_volatility_sds = get_violin(subj_volatility_sds_c, "Volatility Variability (SD)")
 ggsave(
-  filename = "figure_12e.png"
+  filename = "figure_4e.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3596,10 +3713,10 @@ subj_volatility_sds %>%
   dplyr::select(-c(vision:no_vision)) %>%
   gather(condition, value, effect) -> subj_volatility_sds_e
 
-# Figure 12F ----
+# Figure 4F ----
 gg_volatility_sds_effect = get_violin(subj_volatility_sds_e, "Volatility Variability (SD)", iseffect = T, hline = T)
 ggsave(
-  filename = "figure_12f.png"
+  filename = "figure_4f.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3618,10 +3735,10 @@ noise_volatilities %>%
   dplyr::select(-c(effect)) %>%
   gather(condition, value, vision:no_vision) -> noise_volatilities_c
 
-# Figure 13A ----
+# Figure 5A ----
 gg_noise_volatilities = get_violin(noise_volatilities_c, "Noise Volatility")
 ggsave(
-  filename = "figure_13a.png"
+  filename = "figure_5a.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3633,10 +3750,10 @@ noise_volatilities %>%
   dplyr::select(-c(vision:no_vision)) %>%
   gather(condition, value, effect) -> noise_volatilities_e
 
-# Figure 13B ----
+# Figure 5B ----
 gg_noise_volatilities_effect = get_violin(noise_volatilities_e, "Noise Volatility", iseffect = T, hline = T)
 ggsave(
-  filename = "figure_13b.png"
+  filename = "figure_5b.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3655,10 +3772,10 @@ noise_amplitudes %>%
   dplyr::select(-c(effect)) %>%
   gather(condition, value, vision:no_vision) -> noise_amplitudes_c
 
-# Figure 13C ----
+# Figure 5C ----
 gg_noise_amplitudes = get_violin(noise_amplitudes_c, "Noise Amplitude")
 ggsave(
-  filename = "figure_13c.png"
+  filename = "figure_5c.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3670,10 +3787,10 @@ noise_amplitudes %>%
   dplyr::select(-c(vision:no_vision)) %>%
   gather(condition, value, effect) -> noise_amplitudes_e
 
-# Figure 13D ----
+# Figure 5D ----
 gg_noise_amplitudes_effect = get_violin(noise_amplitudes_e, "Noise Amplitude", iseffect = T, hline = T)
 ggsave(
-  filename = "figure_13d.png"
+  filename = "figure_5d.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3692,10 +3809,10 @@ noise_subj_volatility_sds %>%
   dplyr::select(-c(effect)) %>%
   gather(condition, value, vision:no_vision) -> noise_subj_volatility_sds_c
 
-# Figure 13E ----
+# Figure 5E ----
 gg_noise_volatility_sds = get_violin(noise_subj_volatility_sds_c, "Noise Volatility Variability (SD)")
 ggsave(
-  filename = "figure_13e.png"
+  filename = "figure_5e.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3707,10 +3824,10 @@ noise_subj_volatility_sds %>%
   dplyr::select(-c(vision:no_vision)) %>%
   gather(condition, value, effect) -> noise_subj_volatility_sds_e
 
-# Figure 13F ----
+# Figure 5F ----
 gg_noise_volatility_sds_effect = get_violin(noise_subj_volatility_sds_e, "Noise Volatility Variability (SD)", iseffect = T, hline = T)
 ggsave(
-  filename = "figure_13f.png"
+  filename = "figure_5f.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3729,10 +3846,10 @@ noise_subj_amplitude_sds %>%
   dplyr::select(-c(effect)) %>%
   gather(condition, value, vision:no_vision) -> noise_subj_amplitude_sds_c
 
-# Figure 13G ----
+# Figure 5G ----
 gg_noise_amplitude_sds = get_violin(noise_subj_amplitude_sds_c, "Noise Amplitude Variability (SD)")
 ggsave(
-  filename = "figure_13g.png"
+  filename = "figure_5g.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -3744,10 +3861,10 @@ noise_subj_amplitude_sds %>%
   dplyr::select(-c(vision:no_vision)) %>%
   gather(condition, value, effect) -> noise_subj_amplitude_sds_e
 
-# Figure 13H ----
+# Figure 5H ----
 gg_noise_amplitude_sds_effect = get_violin(noise_subj_amplitude_sds_e, "Noise Amplitude Variability (SD)", iseffect = T, hline = T)
 ggsave(
-  filename = "figure_13h.png"
+  filename = "figure_5h.png"
   , path="Figures"
   , units = "cm"
   , width = 3.84 *3
@@ -4267,7 +4384,7 @@ to_plot %>%
   )
 
 # and against one another
-# Figure 18A ----
+# Figure 6A ----
 to_plot %>%
   ggplot()+
   geom_line(aes(x=time, y=med_1), color = "turquoise")+
@@ -4293,7 +4410,7 @@ to_plot %>%
     , panel.background = element_rect(fill = "white", color = "black")
   )
 ggsave(
-  filename = "figure_18a.png"
+  filename = "figure_6a.png"
   , path="Figures"
   , units = "cm"
   , width = 7.89 *2
@@ -4352,7 +4469,7 @@ df_condition_meansy %>%
     effect = position_bin_scale_grand_avg[condition == "vision"] - position_bin_scale_grand_avg[condition == "no_vision"]
       ) -> df_condition_effecty
 
-# Figure 18B ----
+# Figure 6B ----
 to_plot_effect %>%
   ggplot()+
   geom_line(aes(x=time, y=med_1), color = "purple")+
@@ -4371,7 +4488,7 @@ to_plot_effect %>%
     , panel.background = element_rect(fill = "white", color = "black")
   )
 ggsave(
-  filename = "figure_18b.png"
+  filename = "figure_6b.png"
   , path="Figures"
   , units = "cm"
   , width = 7.89 *2
@@ -4466,7 +4583,7 @@ noise_to_plot %>%
   )
 
 # one against the other
-# Figure 19A ----
+# Figure 7A ----
 noise_to_plot %>%
   ggplot()+
   geom_line(aes(x=time, y=med_1), color = "turquoise")+
@@ -4493,7 +4610,7 @@ noise_to_plot %>%
     , panel.background = element_rect(fill = "white", color = "black")
   )
 ggsave(
-  filename = "figure_19a.png"
+  filename = "figure_7a.png"
   , path="Figures"
   , units = "cm"
   , width = 7.89 *2
@@ -4521,7 +4638,7 @@ noise_to_plot_effect = noise_f_sum_effect %>%
   )
 
 # get empirical effect
-# Figure 19B ----
+# Figure 7B ----
 subj_noise %>%
   dplyr::group_by(time_lores) %>%
   dplyr::summarise(
@@ -4546,7 +4663,7 @@ noise_to_plot_effect %>%
     , panel.background = element_rect(fill = "white", color = "black")
   )
 ggsave(
-  filename = "figure_19b.png"
+  filename = "figure_7b.png"
   , path="Figures"
   , units = "cm"
   , width = 7.89 *2
