@@ -4,12 +4,6 @@
 
 The code in this folder contains all the participant data and analysis code required to reproduce the results described in the manuscript. Moreover, the MATLAB code stored in the ‘Experiment Code’ folder should enable the reader to replicate the methods used in this experiment. 
 
-The following **Contents** should hold true for these package/software specifications unless otherwise specified:
-- R version 4.0.2 (2020-06-22) 
-- rstan_2.19.3 
-- Rstudio Version 1.3.959
-- macOS Catalina 10.15.6
-
 NOTE: ‘optotrak_data.csv’ is stored using Git Large File Storage (LFS). To download this file, you will need to download the git lfs software and clone the repository using git. Follow these steps to install git lfs on your computer: https://docs.github.com/en/github/managing-large-files/installing-git-large-file-storage. 
 
 ## Contents
@@ -19,6 +13,12 @@ NOTE: ‘optotrak_data.csv’ is stored using Git Large File Storage (LFS). To d
 3. It formats and generates the data object for the FANOVAN analysis (see ‘fda_analysis.m’), and displays the corresponding results. 
 4. It formats and generates the data object required for the BHGPR analysis (see ‘cluster_analysis.R’), and displays the corresponding results. 
 5. It generates all the graphs presented in the manuscript. 
+
+This particular script was most recently run succesfully using the following: 
+- R version 4.0.2 (2020-06-22) 
+- rstan_2.21.2 
+- Rstudio Version 1.3.959
+- macOS Big Sur 11.4
 
 ’touch_screen_data.csv’: The participant touch screen data from the experiment. 
 
